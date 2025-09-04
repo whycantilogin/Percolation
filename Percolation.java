@@ -11,9 +11,10 @@ public class Percolation {
     public Percolation(int n) {
         this.n = n;
         opens = 0;
-        grid = new boolean[n * n + 2]; // one extra for the virtual top (n*nth element)
+
+        grid = new boolean[n*n + 2]; // one extra for the virtual top (n*nth element)
         // another for the virtual bottom (n*n+1th)
-        qf = new QuickFindUF(this.n + 2);
+        qf = new QuickFindUF(this.n*this.n + 2);
 
         /*
         for (int i = 0; i < n * n; i++) grid[i] = -1;
@@ -33,12 +34,14 @@ public class Percolation {
 
         // if top row, connect to virtual top
         if (row == 0) {
-            qf.union(n * n, row * n + col);
+            qf.union(n,row*n+col);
+            //qf.union(n * n, row * n + col);
         }
 
         // if bottom row, connect to virtual bottom
         if (row == n - 1) {
-            qf.union(n * n + 1, row * n + col);
+            qf.union(n+1,row*n+col);
+            //qf.union(n * n + 1, row * n + col);
         }
 
         // checking if up, down, left, right site are open
@@ -65,12 +68,15 @@ public class Percolation {
 
     // is the site (row, col) open?
     public boolean isOpen(int row, int col) {
+        StdOut.printf("row: %d, col: %d\n",row,col);
         return grid[row * n + col];
     }
 
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
-        return qf.connected(n * n, row * n + col);
+        //StdOut.printf("row: %d, col: %d\n",row,col);
+        return qf.connected(n,row*n+col);
+        //return qf.connected(n * n, row * n + col);
 
         /*
         // check if find(site) == find(virtual top)
@@ -89,12 +95,13 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        return qf.connected(n * n, n * n + 1); // check if virtual top and virtual bottom connect
+        return qf.connected(n,n+1);
+        //return qf.connected(n * n, n * n + 1); // check if virtual top and virtual bottom connect
     }
 
     // unit testing
     public static void main(String[] args) {
-        int grid_size = Integer.parseInt(args[0]);
+       /* int grid_size = Integer.parseInt(args[0]);
         Percolation p = new Percolation(grid_size);
         for (int i = 1; i < args.length; i += 2) {
             int row = Integer.parseInt(args[i]);
@@ -102,6 +109,6 @@ public class Percolation {
             StdOut.printf("row: %d, col: %d \n", row, col);
             p.open(row, col);
             if (p.percolates()) StdOut.print("percolates");
-        }
+        }*/
     }
 }
