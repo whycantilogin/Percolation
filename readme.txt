@@ -8,12 +8,12 @@ Answer these questions after you implement your solution.
  *  Check all that apply.
  **************************************************************************** */
  [ ]  COS 126
- [ ]  COS 217 
+ [ ]  COS 217
  [ ]  COS 226 (started, but did not complete)
  [ ]  ECE 115
- [ ]  AP Computer Science A
- [ ]  AP Computer Science Principles 
- [ ]  Passed COS placement exam
+ [x]  AP Computer Science A
+ [x]  AP Computer Science Principles
+ [x]  Passed COS placement exam
  [ ]  Algorithms, Part I on Coursera
  [ ]  Algorithms, Part II on Coursera
  [ ]  Competed in programming contests
@@ -102,7 +102,7 @@ percolates():
 ...
 ...
 ...
- 
+
 /* *****************************************************************************
  *  Describe the strategy you used for selecting the values of n.
  *  If it's the same strategy as for QuickFindUF, just write "same".
@@ -119,14 +119,14 @@ percolates():
 
 
 /* *****************************************************************************
- *  Describe any serious problems you encountered.                    
+ *  Describe any serious problems you encountered.
  **************************************************************************** */
 
 
 
 
 /* *****************************************************************************
- *  List any other comments here. Feel free to provide any feedback   
- *  on how much you learned from doing the assignment, and whether    
- *  you enjoyed doing it.                                             
+ *  List any other comments here. Feel free to provide any feedback
+ *  on how much you learned from doing the assignment, and whether
+ *  you enjoyed doing it.
  **************************************************************************** */
