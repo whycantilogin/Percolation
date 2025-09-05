@@ -1,10 +1,12 @@
 import edu.princeton.cs.algs4.QuickFindUF;
+import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 import edu.princeton.cs.algs4.StdOut;
 
 public class Percolation {
     public boolean[] grid;
     public int n;
-    private QuickFindUF qf;
+//     private QuickFindUF qf;
+    private WeightedQuickUnionUF wqu;
     private int opens;
 
     // creates n-by-n grid, with all sites initially blocked
@@ -14,14 +16,8 @@ public class Percolation {
 
         grid = new boolean[n * n + 2]; // one extra for the additional top (n*nth element)
         // another for the virtual bottom (n*n+1th)
-        qf = new QuickFindUF(this.n * this.n + 2);
-
-        /*
-        for (int i = 0; i < n * n; i++) grid[i] = -1;
-        grid[n * n] = n * n;
-        grid[n * n + 1] = n * n + 1;
-        */
-
+//        qf = new QuickFindUF(this.n * this.n + 2);
+        wqu = new WeightedQuickUnionUF(this.n * this.n +2);
     }
 
     // opens the site (row, col) if it is not open already
@@ -34,29 +30,33 @@ public class Percolation {
 
         // if top row, connect to additional top
         if (row == 0) {
-            qf.union(n * n, row * n + col);
-            // qf.union(n * n, row * n + col);
+            wqu.union(n*n, row*n + col);
+//             qf.union(n * n, row * n + col);
         }
 
         // if bottom row, connect to additional bottom
         if (row == n - 1) {
-            qf.union(n * n + 1, row * n + col);
-            // qf.union(n * n + 1, row * n + col);
+            wqu.union(n*n+1, row * n + col);
+//             qf.union(n * n + 1, row * n + col);
         }
 
         // checking if up, down, left, right site are open
         // if so, take the union (combine sets)
         if (validSite(row, col - 1) && isOpen(row, col - 1)) {
-            qf.union(row * this.n + col, row * this.n + col - 1);
+            wqu.union(row * this.n + col, row * this.n + col - 1);
+//             qf.union(row * this.n + col, row * this.n + col - 1);
         }
         if (validSite(row, col + 1) && isOpen(row, col + 1)) {
-            qf.union(row * this.n + col, row * this.n + col + 1);
+            wqu.union(row * this.n + col, row * this.n + col + 1);
+//             qf.union(row * this.n + col, row * this.n + col + 1);
         }
         if (validSite(row + 1, col) && isOpen(row + 1, col)) {
-            qf.union(row * this.n + col, (row + 1) * this.n + col);
+            wqu.union(row * this.n + col, (row + 1) * this.n + col);
+//             qf.union(row * this.n + col, (row + 1) * this.n + col);
         }
         if (validSite(row - 1, col) && isOpen(row - 1, col)) {
-            qf.union(row * this.n + col, (row - 1) * this.n + col);
+            wqu.union(row * this.n + col, (row - 1) * this.n + col);
+//             qf.union(row * this.n + col, (row - 1) * this.n + col);
         }
 
     }
@@ -68,24 +68,13 @@ public class Percolation {
 
     // is the site (row, col) open?
     public boolean isOpen(int row, int col) {
-        // StdOut.printf("row: %d, col: %d\n",row,col);
         return grid[row * n + col];
     }
 
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
-        // StdOut.printf("row: %d, col: %d\n",row,col);
-        return qf.connected(n * n, row * n + col);
-        // return qf.connected(n * n, row * n + col);
-
-        /*
-        // check if find(site) == find(virtual top)
-        if (qf.find(grid[row * side_length + col]) == qf.find(side_length)) {
-            // there is a connected path of open sites between top and site
-            return true;
-        }
-        return false;
-        */
+        return wqu.connected(n * n, row * n + col);
+//         return qf.connected(n * n, row * n + col);
     }
 
     // returns the number of open sites
@@ -95,8 +84,8 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        return qf.connected(n * n, n * n + 1);
-        // return qf.connected(n * n, n * n + 1); // check if additional top and additional bottom connect
+        return wqu.connected(n * n, n * n + 1);
+//         return qf.connected(n * n, n * n + 1); // check if additional top and additional bottom connect
     }
 
     // unit testing
@@ -109,15 +98,5 @@ public class Percolation {
             if (bool) StdOut.print("percolates");
             else StdOut.print("does not percolate");
         }
-
-       /* int grid_size = Integer.parseInt(args[0]);
-        Percolation p = new Percolation(grid_size);
-        for (int i = 1; i < args.length; i += 2) {
-            int row = Integer.parseInt(args[i]);
-            int col = Integer.parseInt(args[i + 1]);
-            StdOut.printf("row: %d, col: %d \n", row, col);
-            p.open(row, col);
-            if (p.percolates()) StdOut.print("percolates");
-        }*/
     }
 }

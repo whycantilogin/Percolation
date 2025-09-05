@@ -23,7 +23,14 @@ Programming Assignment 1:  Percolation
  *
  ******************************************************************************/
 
-[list the help received here]
+9/4/25 Jiatong Yu (Preceptor - Office Hours)
+Helped me fix a bug that checked whether neighboring (left/right/up/down) sites
+were open. Helped me with using the term of "virtual" top or bottom, which was
+referred to as additional top or bottom in my Percolation program.
+
+9/5/25 Mingkun Zhao (Preceptor - Office Hours)
+Helped clarify that the stopwatch implementation should record the average number
+of seconds that it takes for a trial to percolate.
 
 
 /******************************************************************************
@@ -35,6 +42,7 @@ Programming Assignment 1:  Percolation
  *      with University regulations.  /s/ Ada Lovelace
  ******************************************************************************/
 
-[write and sign the pledge here]
+This programming assignment represents my own work in accordance with
+University regulations. /s/ Karen Gao
 
 

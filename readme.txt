@@ -39,7 +39,9 @@ Answer these questions after you implement your solution.
 public boolean[] grid: a boolean array representing the n-by-n grid, with each
 site in the grid being represented by an element in the array (following the
 rule that [index number of the element] = [row * n + col]). To account for the
-virtual top and virtual bottom, the size of the array is n * n + 2.
+virtual top and virtual bottom, the size of the array is n * n + 2. If an
+element's value is true, the corresponding site is open. If the element's value
+is false, the corresponding site is false.
 
 public int n: an integer representing the side length of the n-by-n grid. I
 made it public so that PercolationStats could access it for calculating the
@@ -78,6 +80,10 @@ if that neighboring site is also open. If both hold true, then the set
 containing the neighboring site and the set containing the specified site are
 joined using union() from QuickFindUF.
 
+validSite(): takes two parameters, the integers that represent the row and column
+of the site to check whether it is within the boundaries of an n-by-n grid. It
+returns true if it is wihtin bounds, false if not.
+
 isOpen(): takes two parameters, the integers that represent the row and column
 of the site to check whether it is open. This returns the boolean value of the
 corresponding element in the grid array (false if blocked, true if open).
@@ -108,18 +114,32 @@ bottom are connected using connected() from QuickFindUF.
 
  n          time (seconds)
 --------------------------
-...
-...
-...
-...
-...
+200         16.808
+215         22.094
+280         63.610
+276         59.053
+277         60.502
 
 
 
 /* *****************************************************************************
  *  Describe the strategy you used for selecting the values of n.
  **************************************************************************** */
-
+I started with n=200, using the sample test case's value for PercolationStats.
+Seeing that it only took around 16 seconds, I increased n slightly to 215 to get
+a longer runtime. Now that I had two runs, I could apply the power law. Using
+the equation T(n) = a * n^b seconds, I divided the two equations formed from the
+experiment data and performed calculations to get that b is approximately
+3.78109257. Using that, I plugged it back into the equation in power law form
+using data from the first trial and found that a is around 3.35049226*10^-8.
+From there, I set T equal to 60 and solved for n, giving n that is 280.019027,
+so I then chose 280 to be the next n. Seeing that the result was greater than 60
+seconds, I repeated the process of finding a and b, but this time using the 2nd
+and 3rd trials. This resulting equation got me an n value of 275.943167 (chose
+next n to be 276). Repeating the process once more, the equation gave an n value
+of 276.851245, so I chose 277. Since the resulting runtime went over a minute,
+the maximum n PercolationStats could handle for 100 trials under a minute was
+276.
 
 
 /* *****************************************************************************
@@ -135,23 +155,46 @@ bottom are connected using connected() from QuickFindUF.
 
  n          time (seconds)
 --------------------------
-...
-...
-...
-...
-...
+200         0.150
+1000        4.415
+3461        188.796
+2000        40.976
+2500        76.088
+2200        56.066
+2215        56.349
+2250        57.062
+2300        59.520
+2315        58.892
+2350        61.416
+2330        59.660
+2338        62.940
+2335        60.249
+2333        62.572
+
 
 /* *****************************************************************************
  *  Describe the strategy you used for selecting the values of n.
  *  If it's the same strategy as for QuickFindUF, just write "same".
  **************************************************************************** */
-
+I chose the same starting n value as I did for QuickFind just to see how they
+would compare, and it seems like WeightedQuickUnion is significantly faster. I
+then made chose a larger n-value of 1000, but it was still very fast, not even
+taking 5 seconds. Taking the same approach as for the experiments using
+QuickFind, I applied the power law and got an n-value of 3461.4698, so I
+experimented with n = 3461 next. This resulted in a runtime of over 3 minutes,
+so it showed me that its runtime does not obey the power law. I then tried 2000,
+somewhere near the middle of the 2 previous n's. This gave a runtime closer to
+60 seconds. I then increased the value of n (or decreased, if the runtime went
+over 60 seconds) until I felt that I got substantially close to 60s. From my data,
+the maximum n that PercolationStats could handle for 100 trials under a minute,
+this time using WeightedQuickUnion instead of QuickFind.
 
 
 /* *****************************************************************************
  *  Known bugs / limitations.
  **************************************************************************** */
-
+There is the backwash issue, where open sites connected to the bottom but
+not connected to the top are marked as full.
 
 
 
@@ -174,9 +217,10 @@ open surrounding sites would be ignored and therefore not marked as full).
  *  on how much you learned from doing the assignment, and whether
  *  you enjoyed doing it.
  **************************************************************************** */
-It felt so amazing when each step my program worked because it took me a very
+It felt very good when each step my program worked because it took me a very
 long time to get to the point where Percolation was working (figuring out to
 use a virtual top and virtual bottom, plus much debugging, of course). I'm very
 grateful for the PercolationVisualizer because it allowed me to see when I had
 logical errors regarding the indices used as well as the errors of not filling
-sites when they were supposed to.
+sites when they were supposed to. It was also interesting to see how the power
+law could really apply when using it for the experiments.

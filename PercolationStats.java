@@ -9,11 +9,15 @@ public class PercolationStats {
     private static Stopwatch stopwatch;
     private int open_sites;
     private double[] fractions;
+    private double total_runtime;
+    private int trials;
 
     // perform independent trials on an n-by-n grid
     public PercolationStats(int n, int trials) {
         if (n <= 0 || trials <= 0) throw new IllegalArgumentException("invalid inputs.");
+        this.trials = trials;
         fractions = new double[trials];
+        total_runtime = 0.0;
         for (int i = 0; i < trials; i++) {
             p = new Percolation(n);
             stopwatch = new Stopwatch();
@@ -27,10 +31,10 @@ public class PercolationStats {
                     random_row = StdRandom.uniformInt(0, n);
                     random_col = StdRandom.uniformInt(0, n);
                 }
-
                 // open the site
                 p.open(random_row, random_col);
             }
+            total_runtime += stopwatch.elapsedTime();
 
             // StdOut.printf("percolated");
             open_sites = p.numberOfOpenSites();
@@ -55,24 +59,26 @@ public class PercolationStats {
     // low endpoint of 95% confidence interval
     // z score for 95% confidence is 1.96
     public double confidenceLow() {
-        return mean() - 1.96 * (stddev() / Math.sqrt(p.n));
+        return mean() - 1.96 * (stddev() / Math.sqrt(trials));
     }
 
     // high endpoint of 95% confidence interval
     // z score for 95% confidence is 1.96
     public double confidenceHigh() {
-        return mean() + 1.96 * (stddev() / Math.sqrt(p.n));
+        return mean() + 1.96 * (stddev() / Math.sqrt(trials));
     }
 
     // test client (see below)
     public static void main(String[] args) {
         int n = Integer.parseInt(args[0]);
         int T = Integer.parseInt(args[1]);
+
         PercolationStats ps = new PercolationStats(n, T);
         StdOut.printf("%-17s= %f\n", "mean()", ps.mean());
         StdOut.printf("%-17s= %f\n", "stddev()", ps.stddev());
         StdOut.printf("%-17s= %f\n", "confidenceLow()", ps.confidenceLow());
         StdOut.printf("%-17s= %f\n", "confidenceHigh()", ps.confidenceHigh());
-        StdOut.printf("%-17s= %f\n", "elapsed time", stopwatch.elapsedTime());
+        StdOut.printf("%-17s= %f\n", "elapsed time", ps.total_runtime/T);
+//         StdOut.printf("%-17s= %f\n", "elapsed time", ps.total_runtime);
     }
 }
