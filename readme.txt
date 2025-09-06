@@ -64,7 +64,8 @@ the fraction of (open sites)/(total sites).
 Percolation(): this is the constructor that takes one parameter (n). It sets
 the instance variable for the dimension of the grid equal to n, intializes the
 number of open sites to 0, initializes the grid array to be a size of n*n + 2
-(to account for the virtual top and virtual bottom).
+(to account for the virtual top and virtual bottom). An IllegalArgumentException
+is thrown if n is not a positive integer.
 
 open(): this takes two parameters, the integers that represent the row and
 column of the site to open. This site is checked for whether it is already open
@@ -78,26 +79,31 @@ of left, right, up, and down, that corresponding site neighboring the specified
 site is checked if it is a real valid site on the grid using validSite() and
 if that neighboring site is also open. If both hold true, then the set
 containing the neighboring site and the set containing the specified site are
-joined using union() from QuickFindUF.
+joined using union() from QuickFindUF. An IllegalArgumentException is thrown if
+the site to be opened is not valid.
 
 validSite(): takes two parameters, the integers that represent the row and column
 of the site to check whether it is within the boundaries of an n-by-n grid. It
-returns true if it is wihtin bounds, false if not.
+returns true if it is within bounds, false if not.
 
 isOpen(): takes two parameters, the integers that represent the row and column
 of the site to check whether it is open. This returns the boolean value of the
-corresponding element in the grid array (false if blocked, true if open).
+corresponding element in the grid array (false if blocked, true if open). An
+IllegalArgumentException is thrown if the site to be checked is not valid.
 
 isFull(): takes two parameters, the integers that represent the row and column
 of the site to check whether it is full. This returns the boolean value of
-whether the virtual top and specified site are connected using connected() from
-QuickFindUF.
+whether the virtual top and specified site are connected using find() from
+QuickFindUF by checking whether the find() return values are the same for both
+sites. An IllegalArgumentException is thrown if the site to be checked is
+not valid.
 
 numberOfOpenSites(): returns the value of instance variable opens, which
 represents the number of open sites in the grid.
 
 percolates(): returns the boolean value of whether the virtual top and virtual
-bottom are connected using connected() from QuickFindUF.
+bottom are connected using find() from QuickFindUF by checking whether the
+find() return values are the same for both sites.
 
 
 

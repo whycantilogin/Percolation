@@ -32,6 +32,15 @@ referred to as additional top or bottom in my Percolation program.
 Helped clarify that the stopwatch implementation should record the average number
 of seconds that it takes for a trial to percolate.
 
+9/5/25 Spencer (Intro COS Lab TA)
+Helped search for bugs based on the TigerFile feedback. Helped me understand
+that the instance variables from Percolation should be private, not public
+because I should access those values using other methods already available in
+Percolate. Also, Spencer helped me realize that many of the failed cases were a
+result from not throwing an IllegalArgumentException when needed. Spencer
+explained why declaring a Percolation object as an instance variable is not as
+good as making it a local variable, same thing for the Stopwatch object.
+
 
 /******************************************************************************
  *  Write and sign the following student acknowledgment of original work.
